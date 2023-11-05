@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { fetchQuizQuestions } from "./API";
 import QuestionCard from "./components/QuestionCard";
 import { Difficulty, QuestionState } from "./API";
@@ -24,6 +24,37 @@ const App = () => {
   const [userAnswers, setUserAnswers] = useState<AnswerObject[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(10);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
+  const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
+
+  const startTimer = () => {
+    setTimeLeft(10);
+    const newTimer = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+    setTimer(newTimer);
+  };
+
+  const resetTimer = () => {
+    if (timer) {
+      clearInterval(timer);
+      setTimer(null);
+    }
+  };
+
+  useEffect(() => {
+    if (timeLeft === 0) {
+      const randomAnswer =
+        questions[currentQuestionNumber].answers[
+          Math.floor(
+            Math.random() * questions[currentQuestionNumber].answers.length
+          )
+        ];
+      checkAnswer(randomAnswer);
+      resetTimer();
+    }
+  }, [timeLeft]);
 
   const startTrivia = async () => {
     setLoading(true);
@@ -36,11 +67,17 @@ const App = () => {
     setUserAnswers([]);
     setCurrentQuestionNumber(0);
     setLoading(false);
+    startTimer();
   };
 
-  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const checkAnswer = (e: React.MouseEvent<HTMLButtonElement> | string) => {
     if (!gameOver) {
-      const answer = e.currentTarget.value;
+      let answer = null;
+      if (typeof e == "string") {
+        answer = e;
+      } else {
+        answer = e.currentTarget.value;
+      }
       const correct =
         questions[currentQuestionNumber].correct_answer === answer;
       if (correct) setScore((prev) => prev + 1);
@@ -53,16 +90,22 @@ const App = () => {
       };
 
       setUserAnswers((prev) => [...prev, answerObject]);
+
+      setSelectedAnswer(answer);
+      resetTimer();
     }
   };
 
   const nextQuestion = () => {
+    resetTimer();
     const nextQuestionNumber = currentQuestionNumber + 1;
 
     if (nextQuestionNumber === totalQuestions) {
       setGameOver(true);
     } else {
       setCurrentQuestionNumber(nextQuestionNumber);
+      setSelectedAnswer(null);
+      startTimer();
     }
   };
 
@@ -180,6 +223,9 @@ const App = () => {
             {userAnswers.length === totalQuestions ? "Restart" : "Start"}
           </Button>
         ) : null}
+        {timeLeft > 0 && (
+          <Typography variant="h6">Time Left: {timeLeft} seconds</Typography>
+        )}
       </Grid>
     </Grid>
   );
