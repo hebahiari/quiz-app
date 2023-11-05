@@ -19,12 +19,12 @@ const QuestionCard: React.FC<Props> = ({
   questionNumber,
   totalQuestions,
 }) => (
-  <div>
-    <p className="number">
-      Question: {questionNumber} / {totalQuestions}
+  <div className="border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex m-1 flex-col gap-2 justify-between leading-normal">
+    <p className="align-self-center">
+     {questionNumber} / {totalQuestions}
     </p>
-    {/* <p dangerouslySetInnerHTML={{ __html: question }}></p> */}
-    <p>{question}</p>
+    <p dangerouslySetInnerHTML={{ __html: question }}></p>
+    {/* <p>{question}</p> */}
     <div className="answers">
       {answers.map((answer) => (
         <div className="answer" key={answer}>
@@ -33,8 +33,8 @@ const QuestionCard: React.FC<Props> = ({
             onClick={callback}
             value={answer}
           >
-            {/* <span dangerouslySetInnerHTML={{ __html: answer }} /> */}
-            <span>{answer}</span>
+            <span dangerouslySetInnerHTML={{ __html: answer }} />
+            {/* <span>{answer}</span> */}
           </button>
         </div>
       ))}
