@@ -1,5 +1,5 @@
 import React from "react";
-//Types
+import { Button, Typography, Grid } from "@mui/material";
 import { AnswerObject } from "../App";
 
 type Props = {
@@ -19,27 +19,43 @@ const QuestionCard: React.FC<Props> = ({
   questionNumber,
   totalQuestions,
 }) => (
-  <div>
-    <p className="number">
+  <Grid container direction="column" alignItems="center">
+    <Typography variant="subtitle1" className="number">
       Question: {questionNumber} / {totalQuestions}
-    </p>
-    {/* <p dangerouslySetInnerHTML={{ __html: question }}></p> */}
-    <p>{question}</p>
-    <div className="answers">
-      {answers.map((answer) => (
-        <div className="answer" key={answer}>
-          <button
-            disabled={userAnswer ? true : false}
-            onClick={callback}
-            value={answer}
-          >
-            {/* <span dangerouslySetInnerHTML={{ __html: answer }} /> */}
-            <span>{answer}</span>
-          </button>
-        </div>
-      ))}
-    </div>
-  </div>
+    </Typography>
+    <p dangerouslySetInnerHTML={{ __html: question }}></p>
+    <Grid container direction="column" className="answers">
+      {answers.map((answer) => {
+        const userClicked = userAnswer ? userAnswer.answer === answer : false;
+        const isCorrect = userAnswer
+          ? userAnswer.correctAnswer === answer
+          : false;
+
+        return (
+          <div key={answer}>
+            <Button
+              disabled={userAnswer ? true : false}
+              onClick={callback}
+              value={answer}
+              variant="contained"
+              size="large"
+              fullWidth
+              style={{
+                backgroundColor: isCorrect
+                  ? "green"
+                  : userClicked
+                  ? "red"
+                  : "default",
+                color: userClicked ? "white" : "default",
+              }}
+            >
+              <span dangerouslySetInnerHTML={{ __html: answer }} />
+            </Button>
+          </div>
+        );
+      })}
+    </Grid>
+  </Grid>
 );
 
 export default QuestionCard;

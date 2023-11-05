@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { fetchQuizQuestions } from "./API";
-// Components
 import QuestionCard from "./components/QuestionCard";
-// Types
 import { Difficulty, QuestionState } from "./API";
-// MUI
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 export type AnswerObject = {
   question: string;
@@ -40,19 +40,18 @@ const App = () => {
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (!gameOver) {
-      // users answer
       const answer = e.currentTarget.value;
-      // check if the answer is correct
       const correct =
         questions[currentQuestionNumber].correct_answer === answer;
       if (correct) setScore((prev) => prev + 1);
-      // save user answer
+
       const answerObject = {
         question: questions[currentQuestionNumber].question,
         answer: answer,
         correct: correct,
         correctAnswer: questions[currentQuestionNumber].correct_answer,
       };
+
       setUserAnswers((prev) => [...prev, answerObject]);
     }
   };
@@ -68,32 +67,29 @@ const App = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-      }}
+    <Grid
+      container
+      justifyContent="center"
+      alignItems="center"
+      style={{ minHeight: "100vh" }}
     >
       <Grid
         container
-        spacing={2}
         direction="column"
         justifyContent="center"
         alignItems="center"
+        gap={2}
       >
-        <h1>Trivia</h1>
-        {gameOver && (
+        <Typography variant="h4">Trivia</Typography>
+        {gameOver ? (
           <Grid
             container
-            spacing={2}
             direction="column"
             justifyContent="center"
             alignItems="center"
           >
-            <p>Select Difficulty:</p>
-            <Grid container justifyContent="center" gap={1}>
+            <Typography>Select Difficulty:</Typography>
+            <Grid container spacing={1}>
               <Button
                 variant="outlined"
                 size="small"
@@ -135,8 +131,12 @@ const App = () => {
               </Button>
             </Grid>
           </Grid>
+        ) : null}
+        {loading && (
+          <Box sx={{ display: "flex" }}>
+            <CircularProgress />
+          </Box>
         )}
-        {loading && <p>Loading Questions ... </p>}
         {!loading && !gameOver && (
           <QuestionCard
             questionNumber={currentQuestionNumber + 1}
@@ -154,26 +154,34 @@ const App = () => {
           currentQuestionNumber !== totalQuestions - 1 && (
             <Button
               disabled={
-                userAnswers.length === currentQuestionNumber + 1 ? false : true
+                userAnswers.length <= currentQuestionNumber ? true : false
               }
               onClick={nextQuestion}
+              variant="contained"
+              size="large"
+              fullWidth
             >
               Next Question
             </Button>
           )}
         {userAnswers.length === totalQuestions ? (
-          <>
-            <h3>Game Over!</h3>
-            <p className="score">Score: {score}</p>
-          </>
+          <div>
+            <Typography variant="h6">Game Over!</Typography>
+            <Typography className="score">Score: {score}</Typography>
+          </div>
         ) : null}
         {gameOver || userAnswers.length === totalQuestions ? (
-          <Button size="large" variant="contained" onClick={startTrivia}>
+          <Button
+            size="large"
+            variant="contained"
+            onClick={startTrivia}
+            fullWidth
+          >
             {userAnswers.length === totalQuestions ? "Restart" : "Start"}
           </Button>
         ) : null}
       </Grid>
-    </div>
+    </Grid>
   );
 };
 
