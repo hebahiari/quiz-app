@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
+import { Card } from "@mui/material";
 
 export type AnswerObject = {
   question: string;
@@ -41,6 +42,10 @@ const App = () => {
       clearInterval(timer);
       setTimer(null);
     }
+  };
+
+  const refreshPage = () => {
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -114,7 +119,8 @@ const App = () => {
       container
       justifyContent="center"
       alignItems="center"
-      style={{ minHeight: "100vh" }}
+      style={{ minHeight: "100vh", padding: "20px" }}
+      sx={{ color: 'text.secondary'}}
     >
       <Grid
         container
@@ -122,17 +128,22 @@ const App = () => {
         justifyContent="center"
         alignItems="center"
         gap={2}
+        style={{maxWidth: "600px"}}
       >
-        <Typography variant="h4">Trivia</Typography>
+      <a href="#" onClick={refreshPage}  style={{ textDecoration: "none", color: "inherit" }}>
+          <Typography variant="h4">Trivia</Typography>
+        </a>
+
         {gameOver ? (
           <Grid
             container
             direction="column"
             justifyContent="center"
             alignItems="center"
+            gap={2}
           >
             <Typography>Select Difficulty:</Typography>
-            <Grid container spacing={1}>
+            <Grid container spacing={2} justifyContent="center">
               <Button
                 variant="outlined"
                 size="small"
@@ -202,16 +213,17 @@ const App = () => {
               onClick={nextQuestion}
               variant="contained"
               size="large"
-              fullWidth
+              style={{width: "200px"}}
             >
               Next Question
             </Button>
           )}
         {userAnswers.length === totalQuestions ? (
-          <div>
+          <Grid container       justifyContent="center"
+          alignItems="center" direction="column">
             <Typography variant="h6">Game Over!</Typography>
-            <Typography className="score">Score: {score}</Typography>
-          </div>
+            <Typography className="score">Your score: {score}</Typography>
+          </Grid>
         ) : null}
         {gameOver || userAnswers.length === totalQuestions ? (
           <Button
@@ -224,7 +236,7 @@ const App = () => {
           </Button>
         ) : null}
         {timeLeft > 0 && (
-          <Typography variant="h6">Time Left: {timeLeft} seconds</Typography>
+          <Typography variant="subtitle1">Time Left: {timeLeft} seconds</Typography>
         )}
       </Grid>
     </Grid>

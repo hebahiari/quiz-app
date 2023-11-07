@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Typography, Grid } from "@mui/material";
 import { AnswerObject } from "../App";
 
+
 type Props = {
   question: string;
   answers: string[];
@@ -19,11 +20,11 @@ const QuestionCard: React.FC<Props> = ({
   questionNumber,
   totalQuestions,
 }) => (
-  <Grid container direction="column" alignItems="center">
+  <Grid container direction="column" alignItems="center" gap={2}>
     <Typography variant="subtitle1" className="number">
       Question: {questionNumber} / {totalQuestions}
     </Typography>
-    <p dangerouslySetInnerHTML={{ __html: question }}></p>
+    <Typography variant="subtitle1" dangerouslySetInnerHTML={{ __html: question }}></Typography>
     <Grid container direction="column" className="answers">
       {answers.map((answer) => {
         const userClicked = userAnswer ? userAnswer.answer === answer : false;
