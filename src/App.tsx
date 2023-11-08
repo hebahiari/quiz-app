@@ -159,7 +159,7 @@ const App = () => {
                 size="small"
                 style={{
                   backgroundColor:
-                    difficulty === Difficulty.EASY ? "azure" : "white",
+                    difficulty === Difficulty.EASY ? "#E9EAED" : "white",
                 }}
                 onClick={() => {
                   setDifficulty(Difficulty.EASY);
@@ -172,7 +172,7 @@ const App = () => {
                 size="small"
                 style={{
                   backgroundColor:
-                    difficulty === Difficulty.MEDIUM ? "azure" : "white",
+                    difficulty === Difficulty.MEDIUM ? "#E9EAED" : "white",
                 }}
                 onClick={() => {
                   setDifficulty(Difficulty.MEDIUM);
@@ -185,7 +185,7 @@ const App = () => {
                 size="small"
                 style={{
                   backgroundColor:
-                    difficulty === Difficulty.HARD ? "azure" : "white",
+                    difficulty === Difficulty.HARD ? "#E9EAED" : "white",
                 }}
                 onClick={() => {
                   setDifficulty(Difficulty.HARD);
