@@ -133,7 +133,7 @@ const App = () => {
           padding: "40px 20px",
           border: "1px solid gray",
           borderRadius: "20px",
-          boxShadow: "1px 4px 7px 5px rgba(0,0,0,0.18)",
+          boxShadow: "1px 4px 7px 5px rgba(0,0,0,0.05)",
         }}
       >
         <a
@@ -249,13 +249,18 @@ const App = () => {
             {userAnswers.length === totalQuestions ? "Restart" : "Start"}
           </Button>
         ) : null}
-        {timeLeft > 0 &&
-          !gameOver &&
-          userAnswers.length <= currentQuestionNumber && (
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          style={{ minHeight: "30px" }}
+        >
+          {timeLeft > 0 && !gameOver && (
             <Typography variant="subtitle1">
               Time Left: {timeLeft} seconds
             </Typography>
           )}
+        </Grid>
       </Grid>
     </Grid>
   );
