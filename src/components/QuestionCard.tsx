@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Typography, Grid } from "@mui/material";
 import { AnswerObject } from "../App";
+import { motion } from "framer-motion";
+
 
 
 type Props = {
@@ -19,7 +21,15 @@ const QuestionCard: React.FC<Props> = ({
   userAnswer,
   questionNumber,
   totalQuestions,
-}) => (
+}) => { 
+  
+  return(
+  <motion.div
+  key={questionNumber} 
+  initial={{ opacity: 0 }}
+  animate={{ opacity: 1 }}
+  transition={{ duration: 0.5 }}
+>
   <Grid container direction="column" alignItems="center" gap={2}>
     <Typography variant="subtitle1" className="number">
       Question: {questionNumber} / {totalQuestions}
@@ -57,6 +67,8 @@ const QuestionCard: React.FC<Props> = ({
       })}
     </Grid>
   </Grid>
-);
+  </motion.div>
+
+);}
 
 export default QuestionCard;
