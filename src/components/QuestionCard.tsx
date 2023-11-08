@@ -26,6 +26,7 @@ const QuestionCard: React.FC<Props> = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
+      style={{ width: "100%" }}
     >
       <Grid container direction="column" alignItems="center" gap={2}>
         <Typography variant="subtitle1" className="number">
@@ -45,28 +46,28 @@ const QuestionCard: React.FC<Props> = ({
               : false;
 
             return (
-              <div key={answer}>
-                <Button
-                  disabled={userAnswer ? true : false}
-                  onClick={callback}
-                  value={answer}
-                  variant="contained"
-                  size="large"
-                  fullWidth
-                  style={{
-                    backgroundColor: isCorrect
-                      ? "green"
-                      : userClicked
-                      ? "red"
-                      : "default",
-                    color: userClicked ? "white" : "default",
-                  }}
-                >
-                  <Typography variant="subtitle1">
-                    <span dangerouslySetInnerHTML={{ __html: answer }} />
-                  </Typography>
-                </Button>
-              </div>
+              <Button
+                disabled={userAnswer ? true : false}
+                onClick={callback}
+                value={answer}
+                key={answer}
+                variant="contained"
+                size="large"
+                fullWidth
+                style={{
+                  backgroundColor: isCorrect
+                    ? "#95CE7F"
+                    : userClicked
+                    ? "#CE7F7F"
+                    : "default",
+                  color: userClicked ? "white" : "default",
+                  minWidth: "100%",
+                }}
+              >
+                <Typography variant="subtitle1">
+                  <span dangerouslySetInnerHTML={{ __html: answer }} />
+                </Typography>
+              </Button>
             );
           })}
         </Grid>

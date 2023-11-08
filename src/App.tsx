@@ -119,7 +119,7 @@ const App = () => {
       container
       justifyContent="center"
       alignItems="center"
-      style={{ minHeight: "100vh", padding: "20px" }}
+      style={{ minHeight: "100vh" }}
       sx={{ color: "text.secondary" }}
     >
       <Grid
@@ -128,7 +128,13 @@ const App = () => {
         justifyContent="center"
         alignItems="center"
         gap={2}
-        style={{ maxWidth: "600px" }}
+        style={{
+          maxWidth: "600px",
+          padding: "40px 20px",
+          border: "1px solid gray",
+          borderRadius: "20px",
+          boxShadow: "1px 4px 7px 5px rgba(0,0,0,0.18)",
+        }}
       >
         <a
           href="#"
@@ -144,10 +150,10 @@ const App = () => {
             direction="column"
             justifyContent="center"
             alignItems="center"
-            gap={2}
+            gap={1}
           >
             <Typography>Select Difficulty:</Typography>
-            <Grid container spacing={2} justifyContent="center">
+            <Grid container gap={1} justifyContent="center">
               <Button
                 variant="outlined"
                 size="small"
