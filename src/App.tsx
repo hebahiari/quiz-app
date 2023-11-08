@@ -223,9 +223,11 @@ const App = () => {
             {userAnswers.length === totalQuestions ? "Restart" : "Start"}
           </Button>
         ) : null}
-        {timeLeft > 0 && (
-          <Typography variant="h6">Time Left: {timeLeft} seconds</Typography>
-        )}
+        {timeLeft > 0 &&
+          !gameOver &&
+          userAnswers.length <= currentQuestionNumber && (
+            <Typography variant="h6">Time Left: {timeLeft} seconds</Typography>
+          )}
       </Grid>
     </Grid>
   );

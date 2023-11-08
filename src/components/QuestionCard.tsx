@@ -20,11 +20,11 @@ const QuestionCard: React.FC<Props> = ({
   totalQuestions,
 }) => (
   <Grid container direction="column" alignItems="center">
-    <Typography variant="subtitle1" className="number">
+    <Typography variant="subtitle1">
       Question: {questionNumber} / {totalQuestions}
     </Typography>
     <p dangerouslySetInnerHTML={{ __html: question }}></p>
-    <Grid container direction="column" className="answers">
+    <Grid container direction="column">
       {answers.map((answer) => {
         const userClicked = userAnswer ? userAnswer.answer === answer : false;
         const isCorrect = userAnswer
@@ -49,7 +49,9 @@ const QuestionCard: React.FC<Props> = ({
                 color: userClicked ? "white" : "default",
               }}
             >
-              <span dangerouslySetInnerHTML={{ __html: answer }} />
+              <Typography variant="subtitle1">
+                <span dangerouslySetInnerHTML={{ __html: answer }} />
+              </Typography>
             </Button>
           </div>
         );
