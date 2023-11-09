@@ -120,7 +120,7 @@ const App = () => {
       container
       justifyContent="center"
       alignItems="center"
-      style={{ minHeight: "100vh", color: "white" }}
+      style={{ minHeight: "100vh", color: "#DBDBDB" }}
     >
       <Grid
         container
@@ -150,7 +150,9 @@ const App = () => {
                 size="small"
                 style={{
                   backgroundColor:
-                    difficulty === Difficulty.EASY ? "#E9EAED" : "white",
+                    difficulty === Difficulty.EASY ? "#BABABC" : "#ffffff00",
+                  border: "1px solid white",
+                  color: "white",
                 }}
                 onClick={() => {
                   setDifficulty(Difficulty.EASY);
@@ -163,7 +165,9 @@ const App = () => {
                 size="small"
                 style={{
                   backgroundColor:
-                    difficulty === Difficulty.MEDIUM ? "#E9EAED" : "white",
+                    difficulty === Difficulty.MEDIUM ? "#BABABC" : "#ffffff00",
+                  border: "1px solid white",
+                  color: "white",
                 }}
                 onClick={() => {
                   setDifficulty(Difficulty.MEDIUM);
@@ -176,7 +180,9 @@ const App = () => {
                 size="small"
                 style={{
                   backgroundColor:
-                    difficulty === Difficulty.HARD ? "#E9EAED" : "white",
+                    difficulty === Difficulty.HARD ? "#BABABC" : "#ffffff00",
+                  border: "1px solid white",
+                  color: "white",
                 }}
                 onClick={() => {
                   setDifficulty(Difficulty.HARD);
@@ -214,7 +220,7 @@ const App = () => {
               onClick={nextQuestion}
               variant="contained"
               size="large"
-              style={{ width: "200px" }}
+              style={{ width: "200px", backgroundColor: "#9A58B3" }}
             >
               Next Question
             </Button>
@@ -236,6 +242,9 @@ const App = () => {
             variant="contained"
             onClick={startTrivia}
             fullWidth
+            style={{
+              backgroundColor: "#9A58B3",
+            }}
           >
             {userAnswers.length === totalQuestions ? "Restart" : "Start"}
           </Button>

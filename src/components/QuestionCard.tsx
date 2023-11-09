@@ -33,11 +33,19 @@ const QuestionCard: React.FC<Props> = ({
         <Typography variant="subtitle1" className="number">
           {questionNumber} / {totalQuestions}
         </Typography>
-        <Typography
-          variant="subtitle1"
-          style={{ textAlign: "center", padding: "0 20px" }}
-          dangerouslySetInnerHTML={{ __html: question }}
-        ></Typography>
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          justifyContent="flex-end"
+          style={{ minHeight: "60px" }}
+        >
+          <Typography
+            variant="subtitle1"
+            style={{ textAlign: "center", padding: "0 20px" }}
+            dangerouslySetInnerHTML={{ __html: question }}
+          ></Typography>
+        </Grid>
         <Grid container direction="column">
           {answers.map((answer) => {
             const userClicked = userAnswer
@@ -62,9 +70,9 @@ const QuestionCard: React.FC<Props> = ({
                     : userClicked
                     ? "#CE7F7F"
                     : userAnswer
-                    ? "#7C4790"
-                    : "#A83CD2",
-                  color: userClicked ? "white" : "default",
+                    ? "#A070B3"
+                    : "#9A58B3",
+                  color: userClicked ? "#ECECEC" : "default",
                   minWidth: "100%",
                 }}
               >
