@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { fetchQuizQuestions } from "./API";
-import QuestionCard from "./components/QuestionCard";
-import { Difficulty, QuestionState } from "./API";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
-import { Card } from "@mui/material";
+import { Difficulty, QuestionState } from "./API";
+import { fetchQuizQuestions } from "./API";
+import QuestionCard from "./components/QuestionCard";
 import "./App.css";
 
 export type AnswerObject = {
@@ -17,7 +16,7 @@ export type AnswerObject = {
   correctAnswer: string;
 };
 
-const App = () => {
+const App: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [difficulty, setDifficulty] = useState(Difficulty.EASY);
   const [totalQuestions, setTotalQuestions] = useState(10);
@@ -66,20 +65,26 @@ const App = () => {
     setLoading(true);
     setGameOver(false);
 
-    const newQuestions = await fetchQuizQuestions(totalQuestions, difficulty);
+    try {
+      const newQuestions = await fetchQuizQuestions(totalQuestions, difficulty);
 
-    setQuestions(newQuestions);
-    setScore(0);
-    setUserAnswers([]);
-    setCurrentQuestionNumber(0);
-    setLoading(false);
-    startTimer();
+      setQuestions(newQuestions);
+      setScore(0);
+      setUserAnswers([]);
+      setCurrentQuestionNumber(0);
+      setLoading(false);
+      startTimer();
+    } catch (error) {
+      console.error("Error fetching questions:", error);
+      setLoading(false);
+      setGameOver(true);
+    }
   };
 
   const checkAnswer = (e: React.MouseEvent<HTMLButtonElement> | string) => {
     if (!gameOver) {
       let answer = null;
-      if (typeof e == "string") {
+      if (typeof e === "string") {
         answer = e;
       } else {
         answer = e.currentTarget.value;
@@ -145,51 +150,24 @@ const App = () => {
           >
             <Typography>Select Difficulty:</Typography>
             <Grid container gap={1} justifyContent="center">
-              <Button
-                variant="outlined"
-                size="small"
-                style={{
-                  backgroundColor:
-                    difficulty === Difficulty.EASY ? "#BABABC" : "#ffffff00",
-                  border: "1px solid white",
-                  color: "white",
-                }}
-                onClick={() => {
-                  setDifficulty(Difficulty.EASY);
-                }}
-              >
-                Easy
-              </Button>
-              <Button
-                variant="outlined"
-                size="small"
-                style={{
-                  backgroundColor:
-                    difficulty === Difficulty.MEDIUM ? "#BABABC" : "#ffffff00",
-                  border: "1px solid white",
-                  color: "white",
-                }}
-                onClick={() => {
-                  setDifficulty(Difficulty.MEDIUM);
-                }}
-              >
-                Medium
-              </Button>
-              <Button
-                variant="outlined"
-                size="small"
-                style={{
-                  backgroundColor:
-                    difficulty === Difficulty.HARD ? "#BABABC" : "#ffffff00",
-                  border: "1px solid white",
-                  color: "white",
-                }}
-                onClick={() => {
-                  setDifficulty(Difficulty.HARD);
-                }}
-              >
-                Hard
-              </Button>
+              {Object.values(Difficulty).map((difficultyOption) => (
+                <Button
+                  key={difficultyOption}
+                  variant="outlined"
+                  size="small"
+                  style={{
+                    backgroundColor:
+                      difficulty === difficultyOption ? "#BABABC" : "#ffffff00",
+                    border: "1px solid white",
+                    color: "white",
+                  }}
+                  onClick={() => {
+                    setDifficulty(difficultyOption);
+                  }}
+                >
+                  {difficultyOption}
+                </Button>
+              ))}
             </Grid>
           </Grid>
         ) : null}
