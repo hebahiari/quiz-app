@@ -20,6 +20,7 @@ const QuestionCard: React.FC<Props> = ({
   questionNumber,
   totalQuestions,
 }) => {
+  console.log(questionNumber, userAnswer);
   return (
     <motion.div
       key={questionNumber}
@@ -30,10 +31,11 @@ const QuestionCard: React.FC<Props> = ({
     >
       <Grid container direction="column" alignItems="center" gap={2}>
         <Typography variant="subtitle1" className="number">
-          Question: {questionNumber} / {totalQuestions}
+          {questionNumber} / {totalQuestions}
         </Typography>
         <Typography
           variant="subtitle1"
+          style={{ textAlign: "center", padding: "0 20px" }}
           dangerouslySetInnerHTML={{ __html: question }}
         ></Typography>
         <Grid container direction="column">
@@ -59,7 +61,9 @@ const QuestionCard: React.FC<Props> = ({
                     ? "#95CE7F"
                     : userClicked
                     ? "#CE7F7F"
-                    : "default",
+                    : userAnswer
+                    ? "#7C4790"
+                    : "#A83CD2",
                   color: userClicked ? "white" : "default",
                   minWidth: "100%",
                 }}

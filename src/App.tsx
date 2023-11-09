@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { Card } from "@mui/material";
+import "./App.css";
 
 export type AnswerObject = {
   question: string;
@@ -119,8 +120,7 @@ const App = () => {
       container
       justifyContent="center"
       alignItems="center"
-      style={{ minHeight: "100vh" }}
-      sx={{ color: "text.secondary" }}
+      style={{ minHeight: "100vh", color: "white" }}
     >
       <Grid
         container
@@ -128,20 +128,11 @@ const App = () => {
         justifyContent="center"
         alignItems="center"
         gap={2}
-        style={{
-          maxWidth: "600px",
-          padding: "40px 20px",
-          border: "1px solid gray",
-          borderRadius: "20px",
-          boxShadow: "1px 4px 7px 5px rgba(0,0,0,0.05)",
-        }}
+        className="neonBorder"
       >
-        <a
-          href="#"
-          onClick={refreshPage}
-          style={{ textDecoration: "none", color: "inherit" }}
-        >
-          <Typography variant="h4">Trivia</Typography>
+        <div className="cover"></div>
+        <a href="#" onClick={refreshPage} className="titleContainer">
+          <h1 className="title">Trivia Night</h1>
         </a>
 
         {gameOver ? (
@@ -198,7 +189,7 @@ const App = () => {
         ) : null}
         {loading && (
           <Box sx={{ display: "flex" }}>
-            <CircularProgress />
+            <CircularProgress style={{ color: "#bc13fe" }} />
           </Box>
         )}
         {!loading && !gameOver && (
@@ -249,18 +240,22 @@ const App = () => {
             {userAnswers.length === totalQuestions ? "Restart" : "Start"}
           </Button>
         ) : null}
-        <Grid
-          container
-          justifyContent="center"
-          alignItems="center"
-          style={{ minHeight: "30px" }}
-        >
-          {timeLeft > 0 && !gameOver && (
-            <Typography variant="subtitle1">
-              Time Left: {timeLeft} seconds
-            </Typography>
-          )}
-        </Grid>
+        {!gameOver && (
+          <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            style={{ minHeight: "30px" }}
+          >
+            {timeLeft > 0 &&
+              !gameOver &&
+              userAnswers.length <= currentQuestionNumber && (
+                <Typography variant="subtitle1">
+                  Time Left: {timeLeft} seconds
+                </Typography>
+              )}
+          </Grid>
+        )}
       </Grid>
     </Grid>
   );
