@@ -7,7 +7,54 @@ import Box from "@mui/material/Box";
 import { Difficulty, QuestionState } from "./API";
 import { fetchQuizQuestions } from "./API";
 import QuestionCard from "./components/QuestionCard";
+import { makeStyles } from "@mui/styles";
 import "./App.css";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    minHeight: "100vh",
+    color: "#DBDBDB",
+  },
+  circularProgress: {
+    color: "#bc13fe",
+  },
+  titleContainer: {
+    textDecoration: "none",
+    color: "white",
+  },
+  title: {
+    fontSize: "2.5rem",
+  },
+  difficultyButton: {
+    border: "1px solid white",
+    color: "white",
+  },
+  loadingBox: {
+    display: "flex",
+  },
+  nextButton: {
+    width: "200px",
+    backgroundColor: "#9A58B3ff",
+    "&:hover": {
+      backgroundColor: "#9A58B3bb",
+    },
+  },
+  gameOverButton: {
+    backgroundColor: "#9A58B3ff",
+    "&:hover": {
+      backgroundColor: "#9A58B3bb",
+    },
+  },
+  timeLeftText: {
+    variant: "subtitle1",
+  },
+  timeLeftGrid: {
+    minHeight: "30px",
+  },
+  scoreText: {
+    variant: "h6",
+  },
+}));
 
 export type AnswerObject = {
   question: string;
@@ -28,6 +75,8 @@ const App: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState(10);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
+
+  const classes = useStyles();
 
   const startTimer = () => {
     setTimeLeft(10);
@@ -125,7 +174,7 @@ const App: React.FC = () => {
       container
       justifyContent="center"
       alignItems="center"
-      style={{ minHeight: "100vh", color: "#DBDBDB" }}
+      className={classes.root}
     >
       <Grid
         container
@@ -158,9 +207,8 @@ const App: React.FC = () => {
                   style={{
                     backgroundColor:
                       difficulty === difficultyOption ? "#BABABC" : "#ffffff00",
-                    border: "1px solid white",
-                    color: "white",
                   }}
+                  classes={{ root: classes.difficultyButton }}
                   onClick={() => {
                     setDifficulty(difficultyOption);
                   }}
@@ -171,9 +219,10 @@ const App: React.FC = () => {
             </Grid>
           </Grid>
         ) : null}
+
         {loading && (
-          <Box sx={{ display: "flex" }}>
-            <CircularProgress style={{ color: "#bc13fe" }} />
+          <Box className={classes.loadingBox}>
+            <CircularProgress className={classes.circularProgress} />
           </Box>
         )}
         {!loading && !gameOver && (
@@ -198,7 +247,7 @@ const App: React.FC = () => {
               onClick={nextQuestion}
               variant="contained"
               size="large"
-              style={{ width: "200px", backgroundColor: "#9A58B3" }}
+              classes={{ root: classes.nextButton }}
             >
               Next Question
             </Button>
@@ -220,9 +269,7 @@ const App: React.FC = () => {
             variant="contained"
             onClick={startTrivia}
             fullWidth
-            style={{
-              backgroundColor: "#9A58B3",
-            }}
+            classes={{ root: classes.gameOverButton }}
           >
             {userAnswers.length === totalQuestions ? "Restart" : "Start"}
           </Button>
@@ -232,7 +279,7 @@ const App: React.FC = () => {
             container
             justifyContent="center"
             alignItems="center"
-            style={{ minHeight: "30px" }}
+            className={classes.timeLeftGrid}
           >
             {timeLeft > 0 &&
               !gameOver &&
